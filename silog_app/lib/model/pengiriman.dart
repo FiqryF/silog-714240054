@@ -70,3 +70,4 @@ class Pengiriman {
       'Alamat: ${pelanggan.alamatRingkas()} | '
       '$_status';
 }
+
