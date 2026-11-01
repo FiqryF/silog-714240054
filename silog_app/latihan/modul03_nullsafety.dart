@@ -1,3 +1,5 @@
+import 'dart:io';
+
 class DataKiriman {
   final String resi; // wajib
   final String kotaTujuan; // wajib
@@ -46,14 +48,14 @@ String cariKota(String resi) {
 void ujiPenanganan() {
   for (final resi in ['SLG-001', 'SLG-999']) {
     try {
-      print('$resi -> ${cariKota(resi)}');
+      stdout.writeln('$resi -> ${cariKota(resi)}');
     } on ResiTidakDitemukan catch (e) {
-      print('Peringatan: $e');
+      stdout.writeln('Peringatan: $e');
     } catch (e, s) {
-      print('Kesalahan tidak terduga: $e');
-      print(s);
+      stdout.writeln('Kesalahan tidak terduga: $e');
+      stdout.writeln(s);
     } finally {
-      print('Pencarian $resi selesai.');
+      stdout.writeln('Pencarian $resi selesai.');
     }
   }
 }
@@ -70,7 +72,7 @@ void main() {
   ];
 
   for (final k in daftar) {
-    print(ringkasan(k));
+    stdout.writeln(ringkasan(k));
   }
 
   ujiPenanganan();

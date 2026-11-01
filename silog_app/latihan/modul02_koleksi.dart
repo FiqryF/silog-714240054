@@ -1,3 +1,5 @@
+import 'dart:io';
+
 int estimasiHariSampai(String kota) {
   switch (kota.toLowerCase()) {
     case 'bandung':
@@ -16,7 +18,7 @@ int estimasiHariSampai(String kota) {
   }
 }
 
-main() {
+void main() {
   final Map<String, double> tarifZona = {
     'Bandung': 6000,
     'Surabaya': 8500,
@@ -46,13 +48,13 @@ main() {
     totalPendapatan += biaya;
     rekapPerKota[kota] = (rekapPerKota[kota] ?? 0) + biaya;
     final estimasi = estimasiHariSampai(kota);
-    print(
+    stdout.writeln(
       '${item['resi']} $kota ${berat}kg Rp${biaya.toStringAsFixed(0)} ($estimasi hari)',
     );
   }
-  print('\n--- Rekapitulasi per Kota ---');
+  stdout.writeln('\n--- Rekapitulasi per Kota ---');
   rekapPerKota.forEach((kota, total) {
-    print('$kota : Rp${total.toStringAsFixed(0)}');
+    stdout.writeln('$kota : Rp${total.toStringAsFixed(0)}');
   });
-  print('Total pendapatan : Rp${totalPendapatan.toStringAsFixed(0)}');
+  stdout.writeln('Total pendapatan : Rp${totalPendapatan.toStringAsFixed(0)}');
 }

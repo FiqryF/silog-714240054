@@ -1,3 +1,5 @@
+import 'dart:io';
+
 double beratVolumetrik(double p, double l, double t, {double faktor = 6000}) =>
     (p * l * t) / faktor;
 double beratTertagih({required double aktual, required double volumetrik}) =>
@@ -45,7 +47,7 @@ void main() {
     asuransi: true,
     nilaiBarang: 2500000,
   );
-  print('Berat tertagih : ${tertagih.toStringAsFixed(2)} kg');
-  print('Ongkos kirim : ${rupiah(ongkir)}');
-  print('Estimasi sampai : ${estimasiHariSampai('Surabaya')} hari');
+  stdout.writeln('Berat tertagih : ${tertagih.toStringAsFixed(2)} kg');
+  stdout.writeln('Ongkos kirim : ${rupiah(ongkir)}');
+  stdout.writeln('Estimasi sampai : ${estimasiHariSampai('Surabaya')} hari');
 }

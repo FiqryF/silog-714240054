@@ -1,3 +1,5 @@
+import 'dart:io';
+
 void main() {
   const double faktorVolumetrik = 6000;
   double beratAktual = 12.4; // kilogram
@@ -14,8 +16,8 @@ void main() {
   } else {
     kategori = 'Kargo';
   }
-  print('Berat aktual : ${beratAktual.toStringAsFixed(2)} kg');
-  print('Berat volumetrik : ${beratVolumetrik.toStringAsFixed(2)} kg');
-  print('Berat tertagih : ${beratTertagih.toStringAsFixed(2)} kg');
-  print('Kategori kiriman : $kategori');
+  stdout.writeln('Berat aktual : ${beratAktual.toStringAsFixed(2)} kg');
+  stdout.writeln('Berat volumetrik : ${beratVolumetrik.toStringAsFixed(2)} kg');
+  stdout.writeln('Berat tertagih : ${beratTertagih.toStringAsFixed(2)} kg');
+  stdout.writeln('Kategori kiriman : $kategori');
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 List<Map<String, Object>> buatDaftarKiriman() => [
   {'resi': 'SLG-001', 'berat': 3.0},
   {'resi': 'SLG-002', 'berat': 12.5},
@@ -9,10 +11,8 @@ List<Map<String, Object>> buatDaftarKiriman() => [
   {'resi': 'SLG-008', 'berat': 6.3},
 ];
 
-double totalBerat(List<Map<String, Object>> kiriman) => kiriman.fold(
-  0,
-  (total, item) => total + (item['berat'] as double),
-);
+double totalBerat(List<Map<String, Object>> kiriman) =>
+    kiriman.fold(0, (total, item) => total + (item['berat'] as double));
 
 double rataRataBerat(List<Map<String, Object>> kiriman) =>
     totalBerat(kiriman) / kiriman.length;
@@ -49,13 +49,21 @@ void tampilkanHasil(List<Map<String, Object>> kiriman) {
   final teringan = kirimanTeringan(kiriman);
   final kategori = jumlahPerKategori(kiriman);
 
-  print('Total berat       : ${totalBerat(kiriman).toStringAsFixed(2)} kg');
-  print('Rata-rata berat   : ${rataRataBerat(kiriman).toStringAsFixed(2)} kg');
-  print('Kiriman terberat  : ${terberat['resi']} (${terberat['berat']} kg)');
-  print('Kiriman teringan  : ${teringan['resi']} (${teringan['berat']} kg)');
-  print('Paket Kecil       : ${kategori['Paket Kecil']} kiriman');
-  print('Paket Sedang      : ${kategori['Paket Sedang']} kiriman');
-  print('Kargo              : ${kategori['Kargo']} kiriman');
+  stdout.writeln(
+    'Total berat       : ${totalBerat(kiriman).toStringAsFixed(2)} kg',
+  );
+  stdout.writeln(
+    'Rata-rata berat   : ${rataRataBerat(kiriman).toStringAsFixed(2)} kg',
+  );
+  stdout.writeln(
+    'Kiriman terberat  : ${terberat['resi']} (${terberat['berat']} kg)',
+  );
+  stdout.writeln(
+    'Kiriman teringan  : ${teringan['resi']} (${teringan['berat']} kg)',
+  );
+  stdout.writeln('Paket Kecil       : ${kategori['Paket Kecil']} kiriman');
+  stdout.writeln('Paket Sedang      : ${kategori['Paket Sedang']} kiriman');
+  stdout.writeln('Kargo              : ${kategori['Kargo']} kiriman');
 }
 
 void main() {
