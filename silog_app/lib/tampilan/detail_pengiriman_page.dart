@@ -1,32 +1,95 @@
+
 import 'package:flutter/material.dart';
 
 import '../model/pengiriman.dart';
 
-// Nilai barang pada data praktikum ditampilkan sebagai rupiah bulat.
-String formatRupiah(double nilai) =>
-    'Rp${nilai.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+$)'), (match) => '${match[1]}.')}';
+String formatRupiah(double nilai) {
+  final angka = nilai.toStringAsFixed(0);
 
-class DetailPengirimanPage extends StatelessWidget {
+  return 'Rp${angka.replaceAllMapped(
+    RegExp(r'(\d)(?=(\d{3})+$)'),
+    (match) => '${match[1]}.',
+  )}';
+}
+
+class DetailPengirimanPage
+    extends StatelessWidget {
   final Pengiriman pengiriman;
 
-  const DetailPengirimanPage({super.key, required this.pengiriman});
+  const DetailPengirimanPage({
+    super.key,
+    required this.pengiriman,
+  });
 
-  Widget _baris(String label, String nilai, {bool monospace = false}) {
+  Future<void> _konfirmasiHapus(
+    BuildContext context,
+  ) async {
+    final yakin = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: const Text('Hapus Pengiriman?'),
+          content: Text(
+            'Pengiriman ${pengiriman.resi} '
+            'akan dihapus dari daftar. '
+            'Tindakan ini tidak dapat dibatalkan.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(
+                  dialogContext,
+                  false,
+                );
+              },
+              child: const Text('Batal'),
+            ),
+            FilledButton(
+              onPressed: () {
+                Navigator.pop(
+                  dialogContext,
+                  true,
+                );
+              },
+              child: const Text('Hapus'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (yakin == true && context.mounted) {
+      Navigator.pop(context, true);
+    }
+  }
+
+  Widget _baris(
+    String label,
+    String nilai, {
+    bool monospace = false,
+  }) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12),
+      padding: const EdgeInsets.symmetric(
+        vertical: 12,
+      ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:
+            CrossAxisAlignment.start,
         children: [
           Text(
             label,
-            style: const TextStyle(fontSize: 12, color: Color(0xFF737373)),
+            style: const TextStyle(
+              fontSize: 12,
+              color: Color(0xFF737373),
+            ),
           ),
           const SizedBox(height: 6),
           Text(
             nilai,
             style: TextStyle(
               fontSize: 15,
-              fontFamily: monospace ? 'monospace' : null,
+              fontFamily:
+                  monospace ? 'monospace' : null,
             ),
           ),
         ],
@@ -34,20 +97,31 @@ class DetailPengirimanPage extends StatelessWidget {
     );
   }
 
-  Widget _bagian(String judul, String kode, IconData ikon, List<Widget> isi) {
+  Widget _bagian(
+    String judul,
+    String kode,
+    IconData ikon,
+    List<Widget> isi,
+  ) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFFD1D5DB)),
+        border: Border.all(
+          color: const Color(0xFFD1D5DB),
+        ),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment:
+            CrossAxisAlignment.stretch,
         children: [
           Container(
             padding: const EdgeInsets.all(12),
             color: const Color(0xFFF9FAFB),
             child: Row(
               children: [
-                Icon(ikon, size: 16),
+                Icon(
+                  ikon,
+                  size: 16,
+                ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
@@ -71,12 +145,20 @@ class DetailPengirimanPage extends StatelessWidget {
           ),
           const Divider(height: 1),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 12,
+            ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              crossAxisAlignment:
+                  CrossAxisAlignment.stretch,
               children: [
-                for (var i = 0; i < isi.length; i++) ...[
-                  if (i > 0) const Divider(height: 1),
+                for (
+                  var i = 0;
+                  i < isi.length;
+                  i++
+                ) ...[
+                  if (i > 0)
+                    const Divider(height: 1),
                   isi[i],
                 ],
               ],
@@ -90,88 +172,131 @@ class DetailPengirimanPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tgl = pengiriman.tanggalKirim;
+
     return Scaffold(
       appBar: AppBar(
         title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment:
+              CrossAxisAlignment.start,
           children: [
             Text(
               pengiriman.resi,
-              style: const TextStyle(fontFamily: 'monospace', fontSize: 16),
+              style: const TextStyle(
+                fontFamily: 'monospace',
+                fontSize: 16,
+              ),
             ),
             const Text(
               'Detail Pengiriman',
-              style: TextStyle(fontSize: 10, color: Color(0xFF737373)),
+              style: TextStyle(
+                fontSize: 10,
+                color: Color(0xFF737373),
+              ),
             ),
           ],
         ),
         actions: [
           Container(
-            margin: const EdgeInsets.only(right: 16),
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            margin: const EdgeInsets.only(
+              right: 16,
+            ),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 8,
+              vertical: 4,
+            ),
             color: const Color(0xFF171717),
             child: const Text(
               'Detail',
-              style: TextStyle(fontSize: 11, color: Colors.white),
+              style: TextStyle(
+                fontSize: 11,
+                color: Colors.white,
+              ),
             ),
           ),
         ],
       ),
       body: Center(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 760),
+          constraints:
+              const BoxConstraints(maxWidth: 760),
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(16),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              crossAxisAlignment:
+                  CrossAxisAlignment.stretch,
               children: [
                 _bagian(
                   'INFORMASI PENGIRIMAN',
                   'LOG-INFO',
                   Icons.local_shipping_outlined,
                   [
-                    _baris('Nomor Resi', pengiriman.resi, monospace: true),
+                    _baris(
+                      'Nomor Resi',
+                      pengiriman.resi,
+                      monospace: true,
+                    ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      padding:
+                          const EdgeInsets.symmetric(
+                        vertical: 12,
+                      ),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment:
+                            CrossAxisAlignment.start,
                         children: [
                           const Text(
                             'Status',
                             style: TextStyle(
                               fontSize: 12,
-                              color: Color(0xFF737373),
+                              color: Color(
+                                0xFF737373,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 6),
                           Container(
-                            padding: const EdgeInsets.symmetric(
+                            padding:
+                                const EdgeInsets.symmetric(
                               horizontal: 8,
                               vertical: 4,
                             ),
                             decoration: BoxDecoration(
-                              color: const Color(0xFFF3F4F6),
+                              color: const Color(
+                                0xFFF3F4F6,
+                              ),
                               border: Border.all(
-                                color: const Color(0xFF737373),
+                                color: const Color(
+                                  0xFF737373,
+                                ),
                               ),
                             ),
                             child: Text(
                               pengiriman.status,
-                              style: const TextStyle(fontSize: 12),
+                              style: const TextStyle(
+                                fontSize: 12,
+                              ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    _baris('Gudang Asal', pengiriman.asal.nama),
-                    _baris('Kota Tujuan', pengiriman.kotaTujuan),
+                    _baris(
+                      'Gudang Asal',
+                      pengiriman.asal.nama,
+                    ),
+                    _baris(
+                      'Kota Tujuan',
+                      pengiriman.kotaTujuan,
+                    ),
                     _baris(
                       'Tanggal Kirim',
                       '${tgl.day}/${tgl.month}/${tgl.year}',
                     ),
                   ],
                 ),
+
                 const SizedBox(height: 20),
+
                 _bagian(
                   'RINCIAN BARANG',
                   'ITEM-INFO',
@@ -182,29 +307,69 @@ class DetailPengirimanPage extends StatelessWidget {
                       pengiriman.barang.kode,
                       monospace: true,
                     ),
-                    _baris('Nama Barang', pengiriman.barang.nama),
+                    _baris(
+                      'Nama Barang',
+                      pengiriman.barang.nama,
+                    ),
                     _baris(
                       'Jumlah',
-                      '${pengiriman.jumlah} ${pengiriman.barang.satuan}',
+                      '${pengiriman.jumlah} '
+                      '${pengiriman.barang.satuan}',
                     ),
                     _baris(
                       'Nilai Barang',
-                      formatRupiah(pengiriman.nilaiBarang),
+                      formatRupiah(
+                        pengiriman.nilaiBarang,
+                      ),
                       monospace: true,
                     ),
                   ],
                 ),
+
                 const SizedBox(height: 24),
+
+                OutlinedButton.icon(
+                  onPressed: () {
+                    _konfirmasiHapus(context);
+                  },
+                  icon: const Icon(
+                    Icons.delete_outline,
+                  ),
+                  label: const Text(
+                    'Hapus Pengiriman',
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor:
+                        Colors.red.shade700,
+                    side: BorderSide(
+                      color: Colors.red.shade700,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 12),
+
                 FilledButton.icon(
-                  onPressed: () => Navigator.pop(context),
-                  icon: const Icon(Icons.arrow_back, size: 18),
-                  label: const Text('Kembali ke Daftar'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    size: 18,
+                  ),
+                  label: const Text(
+                    'Kembali ke Daftar',
+                  ),
                 ),
                 const SizedBox(height: 8),
                 const Text(
-                  'Ketuk untuk kembali ke layar Daftar Pengiriman',
+                  'Ketuk untuk kembali ke layar '
+                  'Daftar Pengiriman',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 10, color: Color(0xFF737373)),
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: Color(0xFF737373),
+                  ),
                 ),
               ],
             ),
