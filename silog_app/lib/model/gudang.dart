@@ -1,4 +1,3 @@
-
 import 'barang.dart';
 
 class Gudang {
@@ -36,7 +35,8 @@ class Gudang {
     final tersedia = _stok[barang.kode] ?? 0;
     if (jumlah > tersedia) {
       throw StateError(
-          'Stok ${barang.kode} hanya $tersedia, tidak dapat mengeluarkan $jumlah');
+        'Stok ${barang.kode} hanya $tersedia, tidak dapat mengeluarkan $jumlah',
+      );
     }
     _stok[barang.kode] = tersedia - jumlah;
   }

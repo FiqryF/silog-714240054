@@ -1,4 +1,3 @@
-
 class Pelanggan {
   final String kode;
   final String nama;

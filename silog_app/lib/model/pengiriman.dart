@@ -1,4 +1,3 @@
-
 import 'barang.dart';
 import 'gudang.dart';
 import 'pelanggan.dart';
@@ -22,8 +21,8 @@ class Pengiriman {
     required this.pelanggan,
     required this.jumlah,
     required this.tanggalKirim,
-    String status = 'Draft',
-  }) : _status = status;
+    this._status = 'Draft',
+  });
 
   /// Konstruktor bernama untuk pengiriman yang baru didaftarkan hari ini.
   Pengiriman.baru({
@@ -33,8 +32,8 @@ class Pengiriman {
     required this.barang,
     required this.pelanggan,
     required this.jumlah,
-  })  : tanggalKirim = DateTime.now(),
-        _status = 'Menunggu Pickup';
+  }) : tanggalKirim = DateTime.now(),
+       _status = 'Menunggu Pickup';
 
   String get status => _status;
 
@@ -70,4 +69,3 @@ class Pengiriman {
       'Alamat: ${pelanggan.alamatRingkas()} | '
       '$_status';
 }
-

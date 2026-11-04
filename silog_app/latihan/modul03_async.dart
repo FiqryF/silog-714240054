@@ -1,3 +1,5 @@
+import 'dart:io';
+
 class ResiTidakDitemukan implements Exception {
   final String resi;
 
@@ -42,18 +44,18 @@ Future<void> bandingkanWaktu() async {
 
   final durasi = DateTime.now().difference(mulai);
 
-  print('Status : ${hasil[0]}');
-  print('Ongkir : ${hasil[1]}');
-  print('Durasi total: ${durasi.inMilliseconds} ms');
+  stdout.writeln('Status : ${hasil[0]}');
+  stdout.writeln('Ongkir : ${hasil[1]}');
+  stdout.writeln('Durasi total: ${durasi.inMilliseconds} ms');
 }
 
 Future<void> pantauBanyakResi(List<String> daftarResi) async {
   final proses = daftarResi.map((resi) async {
     try {
       final status = await ambilStatusKiriman(resi);
-      print('Berhasil: $status');
+      stdout.writeln('Berhasil: $status');
     } on ResiTidakDitemukan catch (e) {
-      print('Gagal: $e');
+      stdout.writeln('Gagal: $e');
     }
   });
 
@@ -61,21 +63,21 @@ Future<void> pantauBanyakResi(List<String> daftarResi) async {
 }
 
 Future<void> main() async {
-  print('1. Permintaan data dikirim...');
+  stdout.writeln('1. Permintaan data dikirim...');
 
   try {
     final status = await ambilStatusKiriman('SLG-002');
-    print('2. $status');
+    stdout.writeln('2. $status');
 
     final ongkir = await ambilOngkir('SLG-002');
-    print('3. Ongkos kirim: Rp${ongkir.toStringAsFixed(0)}');
+    stdout.writeln('3. Ongkos kirim: Rp${ongkir.toStringAsFixed(0)}');
   } on ResiTidakDitemukan catch (e) {
-    print('Peringatan: $e');
+    stdout.writeln('Peringatan: $e');
   } catch (e) {
-    print('Gagal mengambil data: $e');
+    stdout.writeln('Gagal mengambil data: $e');
   }
 
-  print('4. Proses selesai.');
+  stdout.writeln('4. Proses selesai.');
 
   await bandingkanWaktu();
 

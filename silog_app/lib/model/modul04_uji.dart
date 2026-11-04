@@ -1,3 +1,4 @@
+import 'dart:io';
 
 import 'barang.dart';
 import 'gudang.dart';
@@ -31,9 +32,9 @@ void main() {
   gudangBandung.terimaBarang(sepatu, 120);
   gudangBandung.terimaBarang(kaos, 300);
 
-  print(gudangBandung);
-  print('Rincian stok: ${gudangBandung.stok}');
-  print('Data pelanggan: $pelanggan');
+  stdout.writeln(gudangBandung);
+  stdout.writeln('Rincian stok: ${gudangBandung.stok}');
+  stdout.writeln('Data pelanggan: $pelanggan');
 
   final kirim = Pengiriman.baru(
     resi: 'SLG-2026-0007',
@@ -46,21 +47,21 @@ void main() {
 
   gudangBandung.keluarkanBarang(sepatu, kirim.jumlah);
 
-  print(kirim);
-  print('Nilai barang: Rp${kirim.nilaiBarang.toStringAsFixed(0)}');
+  stdout.writeln(kirim);
+  stdout.writeln('Nilai barang: Rp${kirim.nilaiBarang.toStringAsFixed(0)}');
 
   kirim.ubahStatus('Dalam Perjalanan');
-  print('Status terbaru: ${kirim.status}');
+  stdout.writeln('Status terbaru: ${kirim.status}');
 
   try {
     kirim.ubahStatus('Draft');
   } on StateError catch (e) {
-    print('Ditolak: ${e.message}');
+    stdout.writeln('Ditolak: ${e.message}');
   }
 
   try {
     gudangBandung.keluarkanBarang(sepatu, 9999);
   } on StateError catch (e) {
-    print('Ditolak: ${e.message}');
+    stdout.writeln('Ditolak: ${e.message}');
   }
 }

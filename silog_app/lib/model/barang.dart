@@ -1,4 +1,3 @@
-
 class Barang {
   final String kode;
   final String nama;
@@ -9,18 +8,18 @@ class Barang {
   Barang({
     required this.kode,
     required this.nama,
-    required double hargaSatuan,
+    required this._hargaSatuan,
     this.satuan = 'pcs',
     this.beratKg = 0,
-  }) : _hargaSatuan = hargaSatuan;
+  });
 
   /// Konstruktor bernama untuk data hasil pemindaian kode barang.
   Barang.dariPemindaian(String baris)
-      : kode = baris.split(';')[0],
-        nama = baris.split(';')[1],
-        satuan = 'pcs',
-        _hargaSatuan = double.parse(baris.split(';')[2]),
-        beratKg = 0;
+    : kode = baris.split(';')[0],
+      nama = baris.split(';')[1],
+      satuan = 'pcs',
+      _hargaSatuan = double.parse(baris.split(';')[2]),
+      beratKg = 0;
 
   double get hargaSatuan => _hargaSatuan;
 
@@ -34,5 +33,6 @@ class Barang {
   double nilaiTotal(int jumlah) => _hargaSatuan * jumlah;
 
   @override
-  String toString() => '[$kode] $nama ($satuan) - Rp${_hargaSatuan.toStringAsFixed(0)}';
+  String toString() =>
+      '[$kode] $nama ($satuan) - Rp${_hargaSatuan.toStringAsFixed(0)}';
 }

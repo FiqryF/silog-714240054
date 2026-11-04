@@ -1,5 +1,7 @@
-import '../lib/layanan/layanan_pengiriman.dart';
-import '../lib/layanan/moda.dart';
+import 'dart:io';
+
+import 'package:silog_app/layanan/layanan_pengiriman.dart';
+import 'package:silog_app/layanan/moda.dart';
 
 void main() {
   final List<LayananPengiriman> daftarLayanan = [
@@ -33,14 +35,14 @@ void main() {
     ),
   ];
 
-  print('=== Perbandingan Layanan Pengiriman ===');
+  stdout.writeln('=== Perbandingan Layanan Pengiriman ===');
   for (final layanan in daftarLayanan) {
-    print(layanan.ringkasan());
+    stdout.writeln(layanan.ringkasan());
   }
 
   daftarLayanan.sort((a, b) => a.hitungTarif().compareTo(b.hitungTarif()));
-  print('\nLayanan termurah : ${daftarLayanan.first.kodeLayanan}');
-  print(
+  stdout.writeln('\nLayanan termurah : ${daftarLayanan.first.kodeLayanan}');
+  stdout.writeln(
     'Layanan tercepat : '
     '${daftarLayanan.reduce((a, b) => a.estimasiHari() <= b.estimasiHari() ? a : b).kodeLayanan}',
   );
@@ -50,23 +52,25 @@ void main() {
   truk.catatPosisi('Gudang Utama Bandung');
   truk.catatPosisi('Rest Area KM 207');
   truk.catatPosisi('Gudang Transit Semarang');
-  print('\nRiwayat posisi ${truk.kodeLayanan}:');
+  stdout.writeln('\nRiwayat posisi ${truk.kodeLayanan}:');
   for (final r in truk.riwayat) {
-    print('  $r');
+    stdout.writeln('  $r');
   }
-  print('Posisi terakhir: ${truk.posisiTerakhir()}');
+  stdout.writeln('Posisi terakhir: ${truk.posisiTerakhir()}');
 
-  print('\n=== Pengujian Mixin Terasuransi ===');
+  stdout.writeln('\n=== Pengujian Mixin Terasuransi ===');
   const nilaiBarang = 10000000.0;
   for (final layanan in daftarLayanan) {
     if (layanan is Terasuransi) {
       final asuransi = layanan as Terasuransi;
-      print(
+      stdout.writeln(
         '${layanan.kodeLayanan} | Premi ${asuransi.persentasePremi}%: '
         'Rp${asuransi.hitungPremi(nilaiBarang).toStringAsFixed(0)}',
       );
     } else {
-      print('${layanan.kodeLayanan} tidak memiliki metode hitungPremi().');
+      stdout.writeln(
+        '${layanan.kodeLayanan} tidak memiliki metode hitungPremi().',
+      );
     }
   }
 
