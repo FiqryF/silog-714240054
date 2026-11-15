@@ -64,10 +64,12 @@ class DetailPengirimanPage
   }
 
   Widget _baris(
+    BuildContext context,
     String label,
     String nilai, {
     bool monospace = false,
   }) {
+    final skema = Theme.of(context).colorScheme;
     return Padding(
       padding: const EdgeInsets.symmetric(
         vertical: 12,
@@ -78,9 +80,9 @@ class DetailPengirimanPage
         children: [
           Text(
             label,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 12,
-              color: Color(0xFF737373),
+              color: skema.onSurfaceVariant,
             ),
           ),
           const SizedBox(height: 6),
@@ -98,15 +100,17 @@ class DetailPengirimanPage
   }
 
   Widget _bagian(
+    BuildContext context,
     String judul,
     String kode,
     IconData ikon,
     List<Widget> isi,
   ) {
+    final skema = Theme.of(context).colorScheme;
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
-          color: const Color(0xFFD1D5DB),
+          color: skema.outlineVariant,
         ),
       ),
       child: Column(
@@ -115,7 +119,7 @@ class DetailPengirimanPage
         children: [
           Container(
             padding: const EdgeInsets.all(12),
-            color: const Color(0xFFF9FAFB),
+            color: skema.surfaceContainerLow,
             child: Row(
               children: [
                 Icon(
@@ -134,10 +138,10 @@ class DetailPengirimanPage
                 ),
                 Text(
                   kode,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontFamily: 'monospace',
                     fontSize: 9,
-                    color: Color(0xFF737373),
+                    color: skema.onSurfaceVariant,
                   ),
                 ),
               ],
@@ -172,6 +176,7 @@ class DetailPengirimanPage
   @override
   Widget build(BuildContext context) {
     final tgl = pengiriman.tanggalKirim;
+    final skema = Theme.of(context).colorScheme;
 
     return Scaffold(
       appBar: AppBar(
@@ -186,11 +191,11 @@ class DetailPengirimanPage
                 fontSize: 16,
               ),
             ),
-            const Text(
+            Text(
               'Detail Pengiriman',
               style: TextStyle(
                 fontSize: 10,
-                color: Color(0xFF737373),
+                color: skema.onSurfaceVariant,
               ),
             ),
           ],
@@ -204,12 +209,12 @@ class DetailPengirimanPage
               horizontal: 8,
               vertical: 4,
             ),
-            color: const Color(0xFF171717),
-            child: const Text(
+            color: skema.primary,
+            child: Text(
               'Detail',
               style: TextStyle(
                 fontSize: 11,
-                color: Colors.white,
+                color: skema.onPrimary,
               ),
             ),
           ),
@@ -226,11 +231,13 @@ class DetailPengirimanPage
                   CrossAxisAlignment.stretch,
               children: [
                 _bagian(
+                  context,
                   'INFORMASI PENGIRIMAN',
                   'LOG-INFO',
                   Icons.local_shipping_outlined,
                   [
                     _baris(
+                      context,
                       'Nomor Resi',
                       pengiriman.resi,
                       monospace: true,
@@ -244,13 +251,11 @@ class DetailPengirimanPage
                         crossAxisAlignment:
                             CrossAxisAlignment.start,
                         children: [
-                          const Text(
+                          Text(
                             'Status',
                             style: TextStyle(
                               fontSize: 12,
-                              color: Color(
-                                0xFF737373,
-                              ),
+                              color: skema.onSurfaceVariant,
                             ),
                           ),
                           const SizedBox(height: 6),
@@ -261,13 +266,9 @@ class DetailPengirimanPage
                               vertical: 4,
                             ),
                             decoration: BoxDecoration(
-                              color: const Color(
-                                0xFFF3F4F6,
-                              ),
+                              color: skema.surfaceContainerHigh,
                               border: Border.all(
-                                color: const Color(
-                                  0xFF737373,
-                                ),
+                                color: skema.outline,
                               ),
                             ),
                             child: Text(
@@ -281,14 +282,17 @@ class DetailPengirimanPage
                       ),
                     ),
                     _baris(
+                      context,
                       'Gudang Asal',
                       pengiriman.asal.nama,
                     ),
                     _baris(
+                      context,
                       'Kota Tujuan',
                       pengiriman.kotaTujuan,
                     ),
                     _baris(
+                      context,
                       'Tanggal Kirim',
                       '${tgl.day}/${tgl.month}/${tgl.year}',
                     ),
@@ -298,25 +302,30 @@ class DetailPengirimanPage
                 const SizedBox(height: 20),
 
                 _bagian(
+                  context,
                   'RINCIAN BARANG',
                   'ITEM-INFO',
                   Icons.inventory_2_outlined,
                   [
                     _baris(
+                      context,
                       'Kode Barang',
                       pengiriman.barang.kode,
                       monospace: true,
                     ),
                     _baris(
+                      context,
                       'Nama Barang',
                       pengiriman.barang.nama,
                     ),
                     _baris(
+                      context,
                       'Jumlah',
                       '${pengiriman.jumlah} '
                       '${pengiriman.barang.satuan}',
                     ),
                     _baris(
+                      context,
                       'Nilai Barang',
                       formatRupiah(
                         pengiriman.nilaiBarang,
@@ -340,9 +349,9 @@ class DetailPengirimanPage
                   ),
                   style: OutlinedButton.styleFrom(
                     foregroundColor:
-                        Colors.red.shade700,
+                        skema.error,
                     side: BorderSide(
-                      color: Colors.red.shade700,
+                      color: skema.error,
                     ),
                   ),
                 ),
@@ -362,13 +371,13 @@ class DetailPengirimanPage
                   ),
                 ),
                 const SizedBox(height: 8),
-                const Text(
+                Text(
                   'Ketuk untuk kembali ke layar '
                   'Daftar Pengiriman',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 10,
-                    color: Color(0xFF737373),
+                    color: skema.onSurfaceVariant,
                   ),
                 ),
               ],

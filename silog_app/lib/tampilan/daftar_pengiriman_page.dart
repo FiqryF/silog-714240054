@@ -6,9 +6,12 @@ import '../model/pengiriman.dart';
 import '../widget/kartu_pengiriman.dart';
 import 'detail_pengiriman_page.dart';
 import 'form_pengiriman_page.dart';
+import 'stok_page.dart';
 
 class DaftarPengirimanPage extends StatefulWidget {
-  const DaftarPengirimanPage({super.key});
+  const DaftarPengirimanPage({super.key, this.ubahTema});
+
+  final Future<void> Function(BuildContext context)? ubahTema;
 
   @override
   State<DaftarPengirimanPage> createState() =>
@@ -117,12 +120,31 @@ class _DaftarPengirimanPageState
 
   @override
   Widget build(BuildContext context) {
+    final tema = Theme.of(context);
+    final skema = tema.colorScheme;
+    final gelap = tema.brightness == Brightness.dark;
+    final ubahTema = widget.ubahTema;
     return DefaultTabController(
       length: 3,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Daftar Pengiriman'),
           actions: [
+            IconButton(
+              icon: Icon(gelap ? Icons.light_mode_outlined : Icons.dark_mode_outlined),
+              tooltip: gelap ? 'Aktifkan mode terang' : 'Aktifkan mode gelap',
+              onPressed: ubahTema == null ? null : () => ubahTema(context),
+            ),
+            IconButton(
+              icon: const Icon(Icons.warehouse_outlined),
+              tooltip: 'Stok Gudang',
+              onPressed: () => Navigator.push<void>(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (_) => const StokPage(),
+                ),
+              ),
+            ),
             IconButton(
               icon: const Icon(Icons.search),
               onPressed: () {},
@@ -148,33 +170,32 @@ class _DaftarPengirimanPageState
                   ),
                   padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFF3F4F6),
+                    color: skema.surfaceContainerHigh,
                     border: Border.all(
-                      color: const Color(0xFFD1D5DB),
+                      color: skema.outlineVariant,
                     ),
                     borderRadius:
                         BorderRadius.circular(4),
                   ),
-                  child: const TabBar(
+                  child: TabBar(
                     dividerHeight: 0,
                     indicatorSize:
                         TabBarIndicatorSize.tab,
                     indicator: BoxDecoration(
-                      color: Colors.black,
+                      color: skema.primary,
                       borderRadius:
-                          BorderRadius.all(
+                          const BorderRadius.all(
                         Radius.circular(3),
                       ),
                     ),
-                    labelColor: Colors.white,
-                    unselectedLabelColor:
-                        Color(0xFF111827),
-                    labelStyle: TextStyle(fontSize: 11),
+                    labelColor: skema.onPrimary,
+                    unselectedLabelColor: skema.onSurface,
+                    labelStyle: const TextStyle(fontSize: 11),
                     labelPadding:
-                        EdgeInsets.symmetric(
+                        const EdgeInsets.symmetric(
                       horizontal: 2,
                     ),
-                    tabs: [
+                    tabs: const [
                       Tab(
                         text: 'Semua',
                         height: 32,
@@ -256,13 +277,14 @@ class RingkasanPengiriman
 
   @override
   Widget build(BuildContext context) {
+    final skema = Theme.of(context).colorScheme;
     return Container(
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: const Color(0xFFF9FAFB),
+        color: skema.surfaceContainerLow,
         border: Border.all(
-          color: const Color(0xFFD1D5DB),
+          color: skema.outlineVariant,
         ),
         borderRadius: BorderRadius.circular(4),
       ),
@@ -274,11 +296,11 @@ class RingkasanPengiriman
                 crossAxisAlignment:
                     CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'JUMLAH PENGIRIMAN',
                     style: TextStyle(
                       fontSize: 10,
-                      color: Color(0xFF6B7280),
+                      color: skema.onSurfaceVariant,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -300,11 +322,11 @@ class RingkasanPengiriman
                 crossAxisAlignment:
                     CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'TOTAL NILAI BARANG',
                     style: TextStyle(
                       fontSize: 10,
-                      color: Color(0xFF6B7280),
+                      color: skema.onSurfaceVariant,
                     ),
                   ),
                   const SizedBox(height: 8),
