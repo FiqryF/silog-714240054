@@ -14,6 +14,7 @@ class KartuPengiriman extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final skema = Theme.of(context).colorScheme;
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       child: InkWell(
@@ -28,8 +29,8 @@ class KartuPengiriman extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(6),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFF3F4F6),
-                      border: Border.all(color: const Color(0xFFD1D5DB)),
+                      color: skema.surfaceContainerHigh,
+                      border: Border.all(color: skema.outlineVariant),
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: const Icon(Icons.inventory_2_outlined, size: 22),
@@ -39,11 +40,11 @@ class KartuPengiriman extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'No. Resi',
                           style: TextStyle(
                             fontSize: 10,
-                            color: Color(0xFF6B7280),
+                            color: skema.onSurfaceVariant,
                           ),
                         ),
                         const SizedBox(height: 6),
@@ -65,8 +66,8 @@ class KartuPengiriman extends StatelessWidget {
                       vertical: 3,
                     ),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFF3F4F6),
-                      border: Border.all(color: const Color(0xFF6B7280)),
+                      color: skema.surfaceContainerHigh,
+                      border: Border.all(color: skema.outline),
                       borderRadius: BorderRadius.circular(3),
                     ),
                     child: Text(
@@ -84,11 +85,11 @@ class KartuPengiriman extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'Nama Barang & Jumlah',
                           style: TextStyle(
                             fontSize: 10,
-                            color: Color(0xFF6B7280),
+                            color: skema.onSurfaceVariant,
                           ),
                         ),
                         const SizedBox(height: 3),
@@ -104,11 +105,11 @@ class KartuPengiriman extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'Rute Pengiriman',
                           style: TextStyle(
                             fontSize: 10,
-                            color: Color(0xFF6B7280),
+                            color: skema.onSurfaceVariant,
                           ),
                         ),
                         const SizedBox(height: 3),
